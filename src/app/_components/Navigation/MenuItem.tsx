@@ -1,15 +1,18 @@
-import {ComponentProps, memo} from 'react'
+"use client";
 
-export const MenuItem = ({label,onClick }:{label: string,onClick:ComponentProps<'button'>['onClick'] }) => {
+export const MenuItem = ({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) => {
   return (
-    <button
-    onClick={onClick}
-    className="px-4 py-3 text-center font-bold transition hover:bg-neutral-100"
-  >
-    {label}
-  </button>
-  )
-}
-
-export const MenuItemMemo = memo(MenuItem)
-
+    <div
+      onClick={onClick}
+      className="px-4 py-3 text-center font-bold transition hover:bg-neutral-100"
+    >
+      {label}
+    </div>
+  );
+};

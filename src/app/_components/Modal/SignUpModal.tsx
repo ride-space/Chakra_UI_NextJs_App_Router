@@ -21,46 +21,54 @@ const schema = z.object({
 
 export const SignUpModal = () => {
   const router = useRouter();
-  const signUpModal = useSignUpModal();
+  const signupModal = useSignUpModal();
   const loginModal = useLoginModal();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FieldValues>({
+    // 初期値
     defaultValues: { name: "", email: "", password: "" },
+    // 入力値の検証
     resolver: zodResolver(schema),
   });
+
   // ログインモーダルを開く
   const onToggle = useCallback(() => {
-    signUpModal.onClose();
+    signupModal.onClose();
     loginModal.onOpen();
-  }, [signUpModal, loginModal]);
+  }, [signupModal, loginModal]);
 
+  // 送信
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setLoading(true);
+
     try {
       // サインアップ
       const res = await axios.post("/api/signup", data);
 
       if (res.status === 200) {
-        toast.success("アカウント作成しました。");
-      }
+        toast.success("アカウントを作成しました!");
 
-      await signIn("credentials", {
-        ...data,
-        redirect: false,
-      });
-      signUpModal.onClose();
-      router.refresh();
+        // ログイン
+        await signIn("credentials", {
+          ...data,
+          redirect: false,
+        });
+
+        signupModal.onClose();
+        router.refresh();
+      }
     } catch (error) {
-      toast.error(`エラーが発生しました。${error}`);
+      toast.error("エラーが発生しました。" + error);
     } finally {
       setLoading(false);
     }
   };
+
   // モーダルの内容
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -121,10 +129,10 @@ export const SignUpModal = () => {
   return (
     <Modal
       disabled={loading}
-      isOpen={signUpModal.isOpen}
+      isOpen={signupModal.isOpen}
       title="サインアップ"
       primaryLabel="サインアップ"
-      onClose={signUpModal.onClose}
+      onClose={signupModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}

@@ -1,12 +1,13 @@
 "use client";
+
 import { User } from "@prisma/client";
 import Image from "next/image";
 import { memo, useCallback, useState } from "react";
 import { useLoginModal, useSignUpModal, useProfileModal } from "@/app/_hooks";
 import { signOut } from "next-auth/react";
-import { MenuItemMemo } from "./MenuItem";
+import { MenuItem } from "./MenuItem";
 
-const Menu = ({ currentUser }: { currentUser: User | null }) => {
+export const Menu = ({ currentUser }: { currentUser: User | null }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const loginModal = useLoginModal();
   const signUpModal = useSignUpModal();
@@ -19,7 +20,7 @@ const Menu = ({ currentUser }: { currentUser: User | null }) => {
   }, []);
   return (
     <div className="relative">
-      <button className="relative h-10 w-10" onClick={toggleOpen}>
+      <div className="relative h-10 w-10" onClick={toggleOpen}>
         <Image
           src={currentUser?.image || "/default.png"}
           alt="avatar"
@@ -27,24 +28,22 @@ const Menu = ({ currentUser }: { currentUser: User | null }) => {
           height={240}
           className="round-full object-cover"
         />
-      </button>
+      </div>
 
       {isOpen && (
         <div className="absolute right-0 z-10 w-40 overflow-hidden rounded-lg bg-white text-sm shadow-lg shadow-gray-100">
           {currentUser ? (
             <>
-              <MenuItemMemo
+              <MenuItem
                 label="プロフィール"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   profileModal.onOpen();
                   setIsOpen(false);
                 }}
               />
-              <MenuItemMemo
+              <MenuItem
                 label="ログアウト"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   signOut();
                   setIsOpen(false);
                 }}
@@ -52,18 +51,16 @@ const Menu = ({ currentUser }: { currentUser: User | null }) => {
             </>
           ) : (
             <>
-              <MenuItemMemo
+              <MenuItem
                 label="ログイン"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   loginModal.onOpen();
                   setIsOpen(false);
                 }}
               />
-              <MenuItemMemo
+              <MenuItem
                 label="サインアップ"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   signUpModal.onOpen();
                   setIsOpen(false);
                 }}
@@ -75,5 +72,3 @@ const Menu = ({ currentUser }: { currentUser: User | null }) => {
     </div>
   );
 };
-
-export const MenuMemo = memo(Menu);
