@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import {
-  NavigationMemo,
+  Navigation,
   SignUpModal,
   LoginModal,
   ProfileModal,
@@ -31,7 +31,7 @@ export default async function RootLayout({
           <ProfileModal currentUser={currentUser} />
           <div>
             <div className="flex min-h-screen flex-col">
-              <NavigationMemo currentUser={currentUser} />
+              <Navigation currentUser={currentUser} />
 
               <main className="container mx-auto max-w-screen-sm flex-1 px-1 py-5">
                 {children}
