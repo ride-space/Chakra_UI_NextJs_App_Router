@@ -6,7 +6,7 @@ import {
   LoginModal,
   ProfileModal,
 } from "@/app/_components";
-import getCurrentUser from "@/app/_action/getCurrentUser";
+import { getCurrentUser } from "@/app/_action/getCurrentUser";
 import { AuthContext, ChakraUIProvider, ToasterContext } from "@/app/_context";
 const inter = Inter({ subsets: ["latin"] });
 
