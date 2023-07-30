@@ -6,6 +6,7 @@ import { memo, useCallback, useState } from "react";
 import { useLoginModal, useSignUpModal, useProfileModal } from "@/app/_hooks";
 import { signOut } from "next-auth/react";
 import { MenuItem } from "./MenuItem";
+import Link from "next/link";
 
 export const Menu = ({ currentUser }: { currentUser: User | null }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -41,6 +42,14 @@ export const Menu = ({ currentUser }: { currentUser: User | null }) => {
                   setIsOpen(false);
                 }}
               />
+              <Link href="/post/create"
+              onClick={()=> {
+                setIsOpen(false);
+              }}
+              className="px-4 py-3 text-center font-bold transition hover:bg-neutral-100 block"
+              >
+                新規投稿
+              </Link>
               <MenuItem
                 label="ログアウト"
                 onClick={() => {
